@@ -29,8 +29,8 @@ Check this Arch Wiki article to prepare an installation medium, e.g. a USB flash
 Find out which keyboard layout you are using and then set it using `loadkeys`:
 
 ```
-$ ls /usr/share/kbd/keymaps/**/*.map.gz
-$ loadkeys de_CH-latin1
+ls /usr/share/kbd/keymaps/**/*.map.gz
+loadkeys de_CH-latin1
 ```
 
 ### Connect to the web
@@ -40,7 +40,7 @@ To connect to the web we use _iwctl_:
 To start _iwctl_ run the following command:
 
 ```
-$ iwctl
+iwctl
 ```
 
 We can then look for the device name:
@@ -70,7 +70,7 @@ Finally, we connect to a network:
 Check if you successfully established a connection by pinging the Google server:
 
 ```
-$ ping 8.8.8.8
+ping 8.8.8.8
 ```
 
 ### Console font
@@ -78,7 +78,7 @@ $ ping 8.8.8.8
 This step is not really necessary, but the Terminus font may appear cleaner than the default one:
 
 ```
-$ setfont Lat2-Terminus16
+setfont Lat2-Terminus16
 ```
 
 ### Partitioning
@@ -88,7 +88,7 @@ $ setfont Lat2-Terminus16
 Run the following command:
 
 ```
-$ ls /sys/firmware/efi/efivars
+ls /sys/firmware/efi/efivars
 ```
 
 **If the command shows the directory without error, then the system is booted in [UEFI mode](#uefi-with-gpt). Else you have to use [BIOS mode](#bios-with-mbr).**
@@ -148,17 +148,17 @@ After partitioning check if the partitions have been created using `fdisk -l`.
 ##### Partition formatting
 
 ```
-$ mkfs.ext4 /dev/<root_partition>
-$ mkswap /dev/<swap_partition>
-$ mkfs.fat -F 32 /dev/<efi_system_partition>
+mkfs.ext4 /dev/<root_partition>
+mkswap /dev/<swap_partition>
+mkfs.fat -F 32 /dev/<efi_system_partition>
 ```
 
 ##### Mounting the file system
 
 ```
-$ mount /dev/<root_partition> /mnt
-$ mount --mkdir /dev/<efi_system_partition> /mnt/boot
-$ swapon /dev/<swap_partition>
+mount /dev/<root_partition> /mnt
+mount --mkdir /dev/<efi_system_partition> /mnt/boot
+swapon /dev/<swap_partition>
 ```
 
 #### BIOS with MBR
@@ -201,15 +201,15 @@ After partitioning check if the partitions have been created using `fdisk -l`.
 ##### Partition formatting
 
 ```
-$ mkfs.ext4 /dev/<root_partition>
-$ mkswap /dev/<swap_partition>
+mkfs.ext4 /dev/<root_partition>
+mkswap /dev/<swap_partition>
 ```
 
 ##### Mounting the file system
 
 ```
-$ mount /dev/<root_partition> /mnt
-$ swapon /dev/<swap_partition>
+mount /dev/<root_partition> /mnt
+swapon /dev/<swap_partition>
 ```
 
 ### Package install
@@ -217,7 +217,7 @@ $ swapon /dev/<swap_partition>
 For a minimal system download and install these packages:
 
 ```
-$ pacstrap -K /mnt base base-devel linux linux-firmware e2fsprogs dhcpcd networkmanager sof-firmware git neovim man-db man-pages texinfo
+pacstrap -K /mnt base base-devel linux linux-firmware e2fsprogs dhcpcd networkmanager sof-firmware git neovim man-db man-pages texinfo
 ```
 
 ℹ️ If you are installing Arch Linux on a computer with **ARM architecture** add the following to the above `pacstrap` command:
@@ -246,20 +246,20 @@ archlinux-keyring-wkd-sync
 #### Generate fstab file
 
 ```
-$ genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
 #### Change root into new system
 
 ```
-$ arch-chroot /mnt
+arch-chroot /mnt
 ```
 
 #### Set time zone
 
 ```
-$ ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
-$ hwclock --systohc
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+hwclock --systohc
 ```
 
 #### Localization
@@ -267,7 +267,7 @@ $ hwclock --systohc
 Edit _/etc/locale.gen_ and uncomment _en_US.UTF-8 UTF-8_ and other needed locales. Generate the locales by running:
 
 ```
-$ locale-gen
+locale-gen
 ```
 
 Create _/etc/locale.conf_ and set the _LANG_ variable according to your preferred language:
@@ -302,7 +302,7 @@ Edit _/etc/hosts_ like this:
 #### Initramfs
 
 ```
-$ mkinitcpio -P
+mkinitcpio -P
 ```
 
 #### Root password
@@ -310,7 +310,7 @@ $ mkinitcpio -P
 Set a new password for root:
 
 ```
-$ passwd
+passwd
 ```
 
 #### Bootloader
@@ -320,19 +320,19 @@ $ passwd
 Install `grub` and `efibootmgr`:
 
 ```
-$ pacman -S grub efibootmgr
+pacman -S grub efibootmgr
 ```
 
 Run the following command:
 
 ```
-$ grub-install --efi-directory=/boot --bootloader-id=GRUB
+grub-install --efi-directory=/boot --bootloader-id=GRUB
 ```
 
 Then create a **GRUB** config file:
 
 ```
-$ grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ##### BIOS
@@ -340,13 +340,13 @@ $ grub-mkconfig -o /boot/grub/grub.cfg
 Install `grub`:
 
 ```
-$ pacman -S grub
+pacman -S grub
 ```
 
 Check using `fdisk -l` to see the name of the disk (**not partition!**) and run the following command:
 
 ```
-$ grub-install /dev/sdX
+grub-install /dev/sdX
 ```
 
 _/dev/sdX_ could for example stand for _/dev/sda_ (**not _/dev/sda1_!**)
@@ -354,7 +354,7 @@ _/dev/sdX_ could for example stand for _/dev/sda_ (**not _/dev/sda1_!**)
 Then create a **GRUB** config file:
 
 ```
-$ grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 #### Final step
@@ -364,7 +364,7 @@ Exit out of the chroot environment by typing `exit` or pressing <kbd>Ctrl</kbd>+
 Unmount all the partitions:
 
 ```
-$ umount -R /mnt
+umount -R /mnt
 ```
 
 Then type `poweroff` and remove the installation disk.
@@ -376,8 +376,8 @@ Then type `poweroff` and remove the installation disk.
 To use _pacman_ you first have to have a working internet connection by enabling _NetworkManager_:
 
 ```
-$ systemctl start NetworkManager
-$ systemctl enable NetworkManager
+systemctl start NetworkManager
+systemctl enable NetworkManager
 ```
 
 Now we can connect to the web using _NetworkManager_:
@@ -385,19 +385,19 @@ Now we can connect to the web using _NetworkManager_:
 First, we list all nearby Wi-Fi networks:
 
 ```
-$ nmcli device wifi list
+nmcli device wifi list
 ```
 
 We can then connect to a network:
 
 ```
-$ nmcli device wifi connect <SSID> password <password>
+nmcli device wifi connect <SSID> password <password>
 ```
 
 Check if you receive data from the Google Server by running this command:
 
 ```
-$ ping 8.8.8.8
+ping 8.8.8.8
 ```
 
 ### Update the system
@@ -405,7 +405,7 @@ $ ping 8.8.8.8
 First things first: Update the system!
 
 ```
-$ pacman -Syu
+pacman -Syu
 ```
 
 ### `sudo` Command
@@ -413,20 +413,20 @@ $ pacman -Syu
 Install the `sudo` command:
 
 ```
-$ pacman -S sudo
+pacman -S sudo
 ```
 
 ### Add your personal user account
 
 ```
-$ useradd -m -g users -G wheel,storage,power,video,audio,input <your username>
-$ passwd <your username>
+useradd -m -g users -G wheel,storage,power,video,audio,input <your username>
+passwd <your username>
 ```
 
 #### Grant root access to our user
 
 ```
-$ EDITOR=nvim visudo
+EDITOR=nvim visudo
 ```
 
 Uncomment the following line in order to use the `sudo` command without password prompt:
@@ -438,14 +438,14 @@ Uncomment the following line in order to use the `sudo` command without password
 You can then log in as your newly created user:
 
 ```
-$ su <your username>
+su <your username>
 ```
 
 If you wish to have the default XDG directories (like Downloads, Pictures, Documents etc.) do:
 
 ```
-$ sudo pacman -S xdg-user-dirs
-$ xdg-user-dirs-update
+sudo pacman -S xdg-user-dirs
+xdg-user-dirs-update
 ```
 
 ### Install AUR package manager
@@ -453,11 +453,11 @@ $ xdg-user-dirs-update
 To install [yay](https://github.com/Jguer/yay):
 
 ```
-$ cd $HOME && mkdir aur
-$ cd aur
-$ git clone https://aur.archlinux.org/yay.git
-$ cd yay
-$ makepkg -si
+cd $HOME && mkdir aur
+cd aur
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
 ```
 
 ### Guest tools
@@ -467,7 +467,7 @@ $ makepkg -si
 This will enhance graphics and improve support for multiple monitors or clipboard sharing.
 
 ```
-$ sudo pacman -S spice-vdagent xf86-video-qxl
+sudo pacman -S spice-vdagent xf86-video-qxl
 ```
 
 #### Guest additions (for VirtualBox)
@@ -475,35 +475,35 @@ $ sudo pacman -S spice-vdagent xf86-video-qxl
 This will enhance graphics and improve support for multiple monitors or clipboard sharing.
 
 ```
-$ sudo pacman -S virtualbox-guest-utils
+sudo pacman -S virtualbox-guest-utils
 ```
 
 ### Sound
 
 ```
-$ sudo pacman -S alsa-utils alsa-plugins
-$ sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
+sudo pacman -S alsa-utils alsa-plugins
+sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
 ```
 
 ### Network
 
 ```
-$ sudo pacman -S openssh
-$ sudo pacman -S iw wpa_supplicant
+sudo pacman -S openssh
+sudo pacman -S iw wpa_supplicant
 ```
 
 #### Enable SSH, DHCP:
 
 ```
-$ sudo systemctl enable sshd
-$ sudo systemctl enable dhcpcd
+sudo systemctl enable sshd
+sudo systemctl enable dhcpcd
 ```
 
 ### Bluetooth
 
 ```
-$ sudo pacman -S bluez bluez-utils blueman
-$ sudo systemctl enable bluetooth
+sudo pacman -S bluez bluez-utils blueman
+sudo systemctl enable bluetooth
 ```
 
 ### Pacman
@@ -511,7 +511,7 @@ $ sudo systemctl enable bluetooth
 To beautify Pacman use:
 
 ```
-$ sudo nvim /etc/pacman.conf
+sudo nvim /etc/pacman.conf
 ```
 
 Uncomment `Color` and add below it `ILoveCandy`.
@@ -521,23 +521,23 @@ Uncomment `Color` and add below it `ILoveCandy`.
 ### Enable SSD Trim
 
 ```
-$ sudo systemctl enable fstrim.timer
+sudo systemctl enable fstrim.timer
 ```
 
 ### Enable Time Synchronization
 
 ```
-$ sudo pacman -S ntp
+sudo pacman -S ntp
 ```
 
 ```
-$ sudo systemctl enable ntpd
+sudo systemctl enable ntpd
 ```
 
 Then enable NTP:
 
 ```
-$ timedatectl set-ntp true
+timedatectl set-ntp true
 ```
 
 ## Graphical User Interface (GUI) Settings
@@ -545,11 +545,11 @@ $ timedatectl set-ntp true
 ### Wayland
 
 ```
-$ sudo pacman -S hyprland hyprpaper swayidle
+sudo pacman -S hyprland hyprpaper swayidle
 ```
 
 ```
-$ yay -S wlogout swaylock-effects-git
+yay -S wlogout swaylock-effects-git
 ```
 
 - _hyprland_: A compositor for Wayland
@@ -578,37 +578,37 @@ sudo pacman -S nvidia
 ### Fonts
 
 ```
-$ sudo pacman -S noto-fonts ttf-opensans ttf-firacode-nerd
+sudo pacman -S noto-fonts ttf-opensans ttf-firacode-nerd
 ```
 
 Emojis:
 
 ```
-$ sudo pacman -S noto-fonts-emoji
+sudo pacman -S noto-fonts-emoji
 ```
 
 To support Asian letters:
 
 ```
-$ sudo pacman -S noto-fonts-cjk
+sudo pacman -S noto-fonts-cjk
 ```
 
 ### Shell
 
 ```
-$ sudo pacman -S zsh
+sudo pacman -S zsh
 ```
 
 Change default shell to zsh:
 
 ```
-$ chsh -s $(which zsh)
+chsh -s $(which zsh)
 ```
 
 ### Terminal
 
 ```
-$ sudo pacman -S alacritty kitty
+sudo pacman -S alacritty kitty
 ```
 
 ### Editor
@@ -616,55 +616,55 @@ $ sudo pacman -S alacritty kitty
 _Neovim_ should already be installed after running the _pacstrap_ command in the installation process. You can use other editors like _nano_ too.
 
 ```
-$ sudo pacman -S neovim gedit nano
+sudo pacman -S neovim gedit nano
 ```
 
 ### Program Launcher
 
 ```
-$ sudo pacman -S wofi
+sudo pacman -S wofi
 ```
 
 ### Status Bar
 
 ```
-$ sudo pacman -S waybar
+sudo pacman -S waybar
 ```
 
 ### File Manager
 
 ```
-$ sudo pacman -S ranger nemo
+sudo pacman -S ranger nemo
 ```
 
 For image previews in `ranger`, `kitty` needs a dependency:
 
 ```
-$ sudo pacman -S python-pillow
+sudo pacman -S python-pillow
 ```
 
 ### Image Viewer
 
 ```
-$ sudo pacman -S imv
+sudo pacman -S imv
 ```
 
 ### Browser
 
 ```
-$ sudo pacman -S firefox chromium
+sudo pacman -S firefox chromium
 ```
 
 ### Screenshot
 
 ```
-$ yay -S hyprshot
+yay -S hyprshot
 ```
 
 ### Screen Recorder
 
 ```
-$ yay -S obs-studio-git
+yay -S obs-studio-git
 ```
 
 You have to install additional packages. Please follow these instructions: https://gist.github.com/PowerBall253/2dea6ddf6974ba4e5d26c3139ffb7580
@@ -672,19 +672,19 @@ You have to install additional packages. Please follow these instructions: https
 ### Media Player
 
 ```
-$ sudo pacman -S vlc
+sudo pacman -S vlc
 ```
 
 ### PDF Viewer
 
 ```
-$ sudo pacman -S zathura zathura-pdf-mupdf
+sudo pacman -S zathura zathura-pdf-mupdf
 ```
 
 ### Color Temperature Adjustment
 
 ```
-$ sudo pacman -S gammastep
+sudo pacman -S gammastep
 ```
 
 ### Wallpapers
@@ -696,8 +696,27 @@ Check these amazing wallpapers that harmonize with the Everforest theme: https:/
 To make GTK applications (e.g. _nemo_) use dark theme, execute the following commands:
 
 ```
-$ gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-$ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+#gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+#gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+sudo nvim /etc/environment
+```
+
+Add the below:
+```
+GTK_THEME=Adwaita:dark
+```
+
+### Multiple Monitors
+
+Install nwg-displays to assist with positioning of monitors:
+```
+yay -S nwg-displays
+```
+
+The below worked for my stacked monitor configuration connected via USBC / Displayport hub:
+```
+monitor=DP-2, 3440x1440, 0x0, 1
+monitor=DP-4, 3440x1440, 0x1440, 1
 ```
 
 ### Other Tools
@@ -707,17 +726,46 @@ $ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 These languages are needed for _Mason_, the LSP package manager in _Neovim_:
 
 ```
-$ sudo pacman -S nodejs npm rust go ruby rubygems php composer lua luarocks python python-pip dotnet-runtime dotnet-sdk julia java-runtime-common java-environment-common jdk-openjdk
+sudo pacman -S nodejs npm rust go ruby rubygems php composer lua luarocks python python-pip dotnet-runtime dotnet-sdk julia java-runtime-common java-environment-common jdk-openjdk
 ```
+
+### Programming utilities
+OSS-Code (VSCode)
+```
+sudo pacman -S code  
+```
+
+### Chat utilities
+```
+yay -S slack-desktop discord
+```
+
+### Gaming
+Enable multilib repository for Steam:
+
+```
+sudo nvim /etc/pacman.conf
+```
+
+Uncomment the following:
+```
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+```
+sudo pacman -Sy steam ttf-liberation
+```
+
 
 #### CLI utilities
 
 ```
-$ sudo pacman -S tldr fzf wget curl tar unzip gzip htop neofetch
+sudo pacman -S tldr fzf wget curl tar unzip gzip htop neofetch
 ```
 
 ```
-$ yay -S pfetch
+yay -S pfetch
 ```
 
 - _tldr_: Commands cheat sheet
@@ -734,7 +782,7 @@ $ yay -S pfetch
 #### Alternatives to traditional commands
 
 ```
-$ sudo pacman -S fd ripgrep bat eza tree-sitter tree-sitter-cli
+sudo pacman -S fd ripgrep bat eza tree-sitter tree-sitter-cli
 ```
 
 - _fd_: Alternative to _find_ command
@@ -802,7 +850,7 @@ mkinitcpio -P
 When `mkinitcpio -P` outputs warnings about missing firmware you can install this AUR packet:
 
 ```
-$ yay -S mkinitcpio-firmware
+yay -S mkinitcpio-firmware
 ```
 
 Then run:
@@ -816,7 +864,7 @@ mkinitcpio -P
 Install the package `notification-daemon`:
 
 ```
-$ sudo pacman -S notification-daemon
+sudo pacman -S notification-daemon
 ```
 
 Create the file _org.freedesktop.Notifications.service_ in `/usr/share/dbus-1/services` with following content:
@@ -832,5 +880,59 @@ Exec=/usr/lib/notification-daemon-1.0/notification-daemon
 Install the following package:
 
 ```
-$ sudo pacman -S xdg-desktop-portal-gtk
+sudo pacman -S xdg-desktop-portal-gtk
 ```
+
+### Grub not detecting Windows boot entry in grub
+
+Run the following steps to add a menu entry for Windows if dual booting:
+
+```
+sudo fdisk -l
+```
+
+You should get a long return that includes something like this:
+
+Device             Start        End   Sectors   Size Type
+/dev/nvme0n1p1      2048    1050623   1048576   512M EFI System
+/dev/nvme0n1p2   1050624  874729471 873678848 416.6G Linux filesystem
+/dev/nvme0n1p3 874729472  874762239     32768    16M Microsoft reserved
+/dev/nvme0n1p4 874762240 1000214527 125452288  59.8G Microsoft basic data
+
+Get the UUID of the EFI partition sudo blkid /dev/nvme0n1p1 (replace nvme0n1p1 with the correct partition for you)
+
+Return: dev/nvme0n1p1: UUID="3C26-6A4C" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="EFI System Partition" PARTUUID="3b64b43f-e7eb-4ac8-a32c-9af2edf64d0d"
+
+Grant yourself write permission to the '40_custom' file in /etc/grub.d
+
+Open the terminal (ctrl+alt+t) and run the following commands:
+```
+sudo chmod o+w /etc/grub.d/40_custom
+```
+
+Edit the 40_custom file
+```
+nvim ./40_custom
+```
+
+Write the following at the bottom of the file and replace 3C26-6A4C with the correct UUID:
+```
+menuentry 'Windows 11' {
+    search --fs-uuid --no-floppy --set=root 3C26-6A4C
+    chainloader (${root})/EFI/Microsoft/Boot/bootmgfw.efi
+}
+```
+Save the file and close the editor.
+
+Back in the terminal, remove write permissions.
+```
+sudo chmod o-w 40_custom
+```
+Update GRUB:
+```
+sudo update-grub
+```
+
+(Optional) You can confirm that your change was successful by going to /boot/grub/grub.cfg and checking lines 243-251. It should reflect your edits in the 40_custom file
+
+Reboot your computer reboot
