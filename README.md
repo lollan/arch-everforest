@@ -502,8 +502,7 @@ sudo systemctl enable sshd dhcpcd
 ### Bluetooth
 
 ```
-sudo pacman -S bluez bluez-utils blueman
-sudo systemctl enable bluetooth
+sudo pacman -S bluez bluez-utils blueman && sudo systemctl enable bluetooth
 ```
 
 ### Pacman
