@@ -484,22 +484,19 @@ sudo pacman -S virtualbox-guest-utils
 ### Sound
 
 ```
-sudo pacman -S alsa-utils alsa-plugins
-sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
+sudo pacman -S alsa-utils alsa-plugins pipewire pipewire-alsa pipewire-pulse wireplumber
 ```
 
 ### Network
 
 ```
-sudo pacman -S openssh
-sudo pacman -S iw wpa_supplicant
+sudo pacman -S openssh iw wpa_supplicant
 ```
 
 #### Enable SSH, DHCP:
 
 ```
-sudo systemctl enable sshd
-sudo systemctl enable dhcpcd
+sudo systemctl enable sshd dhcpcd
 ```
 
 ### Bluetooth
