@@ -151,17 +151,17 @@ After partitioning check if the partitions have been created using `fdisk -l`.
 ##### Partition formatting
 
 ```
-mkfs.ext4 /dev/<root_partition>
-mkswap /dev/<swap_partition>
-mkfs.fat -F 32 /dev/<efi_system_partition>
+mkfs.ext4 /dev/sda3
+mkswap /dev/sda2
+mkfs.fat -F 32 /dev/sda1
 ```
 
 ##### Mounting the file system
 
 ```
-mount /dev/<root_partition> /mnt
-mount --mkdir /dev/<efi_system_partition> /mnt/boot
-swapon /dev/<swap_partition>
+mount /dev/sda3 /mnt
+mount --mkdir /dev/sda1 /mnt/boot
+swapon /dev/sda2
 ```
 
 #### BIOS with MBR
