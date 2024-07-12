@@ -73,6 +73,9 @@ Check if you successfully established a connection by pinging the Google server:
 ping 8.8.8.8
 ```
 
+Set root password so you can complete installation via ssh on a working system
+```passwd```
+
 ### Console font
 
 This step is not really necessary, but the Terminus font may appear cleaner than the default one:
