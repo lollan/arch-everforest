@@ -447,8 +447,7 @@ su <your username>
 If you wish to have the default XDG directories (like Downloads, Pictures, Documents etc.) do:
 
 ```
-sudo pacman -S xdg-user-dirs
-xdg-user-dirs-update
+sudo pacman -S xdg-user-dirs && xdg-user-dirs-update
 ```
 
 ### Install AUR package manager
@@ -689,6 +688,7 @@ sudo pacman -S gammastep
 ### Wallpapers
 
 Check these amazing wallpapers that harmonize with the Everforest theme: https://github.com/Apeiros-46B/everforest-walls
+```cd $HOME/Pictures/ && git clone https://github.com/Apeiros-46B/everforest-walls.git```
 
 ### GTK Dark Theme
 
@@ -697,12 +697,7 @@ To make GTK applications (e.g. _nemo_) use dark theme, execute the following com
 ```
 #gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 #gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-sudo nvim /etc/environment
-```
-
-Add the below:
-```
-GTK_THEME=Adwaita:dark
+echo 'GTK_THEME=Adwaita:dark' | sudo tee -a /etc/environment >/dev/null
 ```
 
 ### Multiple Monitors
